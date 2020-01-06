@@ -63,6 +63,10 @@ public class SqlTranslator
 		{
 			sourceVendor = EDbVendor.dbvmysql;
 		}
+		else if ( args[1].equalsIgnoreCase( "redshift" ) )
+		{
+			sourceVendor = EDbVendor.dbvredshift;
+		}
 		else
 		{
 			System.out.println( "The source database type only support oracle, mysql, mssql.\r\n" );
@@ -87,6 +91,18 @@ public class SqlTranslator
 		else if ( args[2].equalsIgnoreCase( "mysql" ) )
 		{
 			targetVendor = EDbVendor.dbvmysql;
+		}
+		else if ( args[2].equalsIgnoreCase( "redshift" ) )
+		{
+			targetVendor = EDbVendor.dbvredshift;
+		}
+		else if ( args[2].equalsIgnoreCase("snowflake" ) )
+		{
+			targetVendor = EDbVendor.dbvsnowflake;
+		}
+		else if ( args[2].equalsIgnoreCase("vertica" ) )
+		{
+			targetVendor = EDbVendor.dbvvertica;
 		}
 		else
 		{
@@ -263,7 +279,7 @@ public class SqlTranslator
 						buffer.append( ( isKeyword( result.getToken( ) ) ? "Keyword "
 								: "Keyword " )
 								+ ( result.getOriginalTreeNodeText( ) != null ? result.getOriginalTreeNodeText( )
-										: result.getOriginalText( ) )
+								: result.getOriginalText( ) )
 								+ " need to be translated.\r\n" );
 
 						buffer.append( "Location: "
@@ -406,11 +422,11 @@ public class SqlTranslator
 					+ " identifier"
 					+ ( translateIdentifier > 1 ? "s" : "" )
 					+ ( translate ? " had been translated by tool, "
-							: " can be translated by tool, " )
+					: " can be translated by tool, " )
 					+ ( totalIdentifier - translateIdentifier )
 					+ " identifier"
 					+ ( ( totalIdentifier - translateIdentifier ) > 1 ? "s"
-							: "" )
+					: "" )
 					+ " need to be translated by handy.\r\n" );
 
 			totalInfo.append( "Found "
@@ -422,7 +438,7 @@ public class SqlTranslator
 					+ " keyword"
 					+ ( translateKeyword > 1 ? "s" : "" )
 					+ ( translate ? " had been translated by tool, "
-							: " can be translated by tool, " )
+					: " can be translated by tool, " )
 					+ ( totalKeyword - translateKeyword )
 					+ " keyword"
 					+ ( ( totalKeyword - translateKeyword ) > 1 ? "s" : "" )
@@ -437,7 +453,7 @@ public class SqlTranslator
 					+ " data type"
 					+ ( translateDataType > 1 ? "s" : "" )
 					+ ( translate ? " had been translated by tool, "
-							: " can be translated by tool, " )
+					: " can be translated by tool, " )
 					+ ( totalDataType - translateDataType )
 					+ " data type"
 					+ ( ( totalDataType - translateDataType ) > 1 ? "s" : "" )
@@ -452,7 +468,7 @@ public class SqlTranslator
 					+ " function"
 					+ ( translateDataType > 1 ? "s" : "" )
 					+ ( translate ? " had been translated by tool, "
-							: " can be translated by tool, " )
+					: " can be translated by tool, " )
 					+ ( totalFunction - translateFunction )
 					+ " function"
 					+ ( ( totalFunction - translateFunction ) > 1 ? "s" : "" )
@@ -468,7 +484,7 @@ public class SqlTranslator
 	}
 
 	public SqlTranslator( File file, EDbVendor sourceVendor,
-			EDbVendor targetVendor, boolean translate )
+												EDbVendor targetVendor, boolean translate )
 	{
 		this.targetVendor = targetVendor;
 		this.translate = translate;
@@ -479,7 +495,7 @@ public class SqlTranslator
 	}
 
 	public SqlTranslator( String sql, EDbVendor sourceVendor,
-			EDbVendor targetVendor, boolean translator )
+												EDbVendor targetVendor, boolean translator )
 	{
 		this.targetVendor = targetVendor;
 		this.translate = translator;
